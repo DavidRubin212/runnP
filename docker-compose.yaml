@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  mongodb:
+    container_name: mongodb
+    image: mongo:4.4.27-rc0-focal
+    restart: always
+    ports:
+      - '27017:27017'
+    networks: 
+      - app-network
+    volumes:
+      - mongodata:/data/db
+
+  server: 
+    container_name: server-demo
+    restart: always
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    develop:
+      watch:
+        - action: rebuild
+          path: ./server/package.json
+    ports: 
+      - "4002:4003"
+    networks:
+      - app-network
+    environment:
+      CONNECTION_STRING: mongodb://mongodb:27017/myWeatherApp
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    volumes:
+      - ./server/dist:/server/dist
+    depends_on:
+      - mongodb
+
+  client:
+    container_name: client-demo
+    restart: always
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    develop:
+      watch:
+      - action: rebuild
+        path: ./client/package.json
+    ports:
+      - 8002:8002
+    tty: true
+    networks:
+      - app-network 
+    volumes:
+      - type: bind
+        source: ./client/src
+        target: /client/src
+    depends_on:
+      - server
+
+networks: 
+  app-network:
+
+volumes:
+  mongodata:

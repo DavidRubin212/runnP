@@ -1,0 +1,97 @@
+import asyncHandler from "express-async-handler";
+import { Request, Response } from "express"
+import { userService } from "../service/userService.js"
+import { createToken } from "../middlewares/token.js"
+import RequestError from "../utils/RequestError.js";
+import STATUS_CODES from "../utils/StatusCodes.js";
+
+
+const registerUser = asyncHandler(async (req: Request, res: Response) => {
+    const reg = await userService.register(req.body)
+    if (!reg) {
+        throw new RequestError("An error occurred", STATUS_CODES.INTERNAL_SERVER_ERROR)
+    }
+    res.status(STATUS_CODES.OK).json(reg)
+})
+
+const validateLogin = async (email: string, password: string) => {
+    const user = await userService.getUserByEmailService(email);
+
+    if (!user) {
+        throw new RequestError("User not found", STATUS_CODES.UNAUTHORIZED);
+    }
+
+    // Ensure user.password is a string before proceeding
+    if (typeof user.password !== 'string') {
+        // Handle the case where password is null or undefined
+        throw new RequestError("Invalid user data", STATUS_CODES.INTERNAL_SERVER_ERROR);
+    }
+    
+    const isPasswordValid = await userService.validatePasswordService(password, user.password);
+    if (!isPasswordValid) {
+        throw new RequestError("Invalid password", STATUS_CODES.UNAUTHORIZED);
+    }
+    return user;
+}
+
+
+
+const loginController = asyncHandler(async (req: Request, res: Response) => {    
+    const { email, password } = req.body;
+    //   validate
+    const user = await validateLogin(email, password);
+    if (!user) {
+        throw new RequestError("An error occurred", STATUS_CODES.INTERNAL_SERVER_ERROR)
+    }
+    //   create token
+    const userEmail = req.body.email;
+    
+
+    const token = createToken(userEmail);
+    res.setHeader('Authorization',token);
+    
+    res.status(STATUS_CODES.OK).json({ user, message: "Login successful" });
+})
+
+
+const logoutController = async (req: Request, res: Response) => {
+    try {
+        res.clearCookie('token');
+        res.status(200).json({ message: 'Logout successful' });
+    } catch (error) {
+        console.error('Logout failed:', error);
+        res.status(500).json({ error: 'Internal server error . controller logout' });
+    }
+};
+
+const getAllUsers = async (req: Request, res: Response) =>{
+    try{
+        const users = await userService.allUsers()
+        res.status(200).json({ message: 'gating all users successful',users });
+    }catch(error){
+        console.error('gating all users failed:', error);
+        res.status(500).json({ error: 'Internal server error . controller get all' });
+    }
+}
+
+// const deleteUser = asyncHandler(async (req: Request, res: Response) => {
+//     const id = req.params.id
+//     if (!req.isAdmin){
+//         throw new RequestError("Only admin can delete", STATUS_CODES.BAD_REQUEST)
+//     }
+//     const response = await userService.deleteUser(id)
+//     if (!response) {
+//         throw new RequestError("An error occurred", STATUS_CODES.INTERNAL_SERVER_ERROR)
+//     }
+//     res.status(STATUS_CODES.OK).json(response)
+// })
+
+
+export const userController = {
+    registerUser,
+    loginController,
+    logoutController,
+    getAllUsers,
+    // deleteUser
+}
+
