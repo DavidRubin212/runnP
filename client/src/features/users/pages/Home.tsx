@@ -19,6 +19,9 @@ export default function Home() {
                     <span><h6>To our website</h6></span>
                 </h1>
             </section>
-        </div></>
+        </div>
+<img src="https://cdn.dribbble.com/users/3414434/screenshots/6272196/asasas.gif" alt="this slowpoke moves"  width="1150" />
+
+        </>
     )
 }
