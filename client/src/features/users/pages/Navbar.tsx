@@ -48,7 +48,7 @@ export const NavBar = (): JSX.Element => {
       <Logo>
 
         <LogoImage alt="Star" src="https://t4.ftcdn.net/jpg/01/62/42/09/240_F_162420902_nU5hnvuGSCaDy4ja3StuTCYybafONrH0.jpg" />
-        <NavLink href="/">RUN</NavLink>
+        <NavLink href="/">RUN2gether</NavLink>
       </Logo>
       <NavLinks>
         <NavLink href="matcher">find partnerRunner</NavLink>

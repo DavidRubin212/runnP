@@ -12,6 +12,22 @@ const Form = styled.form`
   padding: 20px;
   border-radius: 10px;
 `;
+const StyledContainer = styled.div`
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-image: url("https://images.pexels.com/photos/936094/pexels-photo-936094.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
+  background-size: cover;
+  background-position: center;
+  height: 100vh; // Set a minimum height
+`;
+
 
 const Input = styled.input`
   width: 80%;
@@ -43,12 +59,14 @@ const RunningAppForm: React.FC = () => {
   };
 
   return (
+    <StyledContainer>
     <Form onSubmit={handleSubmit}>
       <Input type="text" placeholder="Running Time" />
       <Input type="text" placeholder="Distance" />
       <Input type="text" placeholder="Kilometer Pace" />
       <SubmitButton type="submit">Find Partner</SubmitButton>
     </Form>
+    </StyledContainer>
   );
 };
 
