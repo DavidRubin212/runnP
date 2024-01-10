@@ -1,9 +1,11 @@
-import UserInterface from "../../users/interfaces/userInterface";
-
+import partnerInterface from "../../users/interfaces/partnerInterface";
+ 
 interface RunInterface {
+    runDate:string;
     distanceKM:number;
-    runningPaceOfOneKM:Number;
-    partner:UserInterface;
+    runningPaceOfOneKM:number;
+    partner:partnerInterface;
+    rating:number;
 
     
 

@@ -7,17 +7,21 @@ const Form = styled.form`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 20px;
+  gap: 2rem;
   background-color: #f0f0f0; // Adjust background color as needed
-  padding: 20px;
-  border-radius: 10px;
+  padding: 2rem;
+  border-radius: 2rem;
+  @media (min-width: 768px) {
+    padding: 4rem;
+  }
 `;
+
 const StyledContainer = styled.div`
-  max-width: 400px;
+  max-width: 90%;
   margin: 0 auto;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  border-radius: 2rem;
+  box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.1);
   background-color: #f9f9f9;
   display: flex;
   flex-direction: column;
@@ -25,26 +29,36 @@ const StyledContainer = styled.div`
   background-image: url("https://images.pexels.com/photos/936094/pexels-photo-936094.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
   background-size: cover;
   background-position: center;
-  height: 100vh; // Set a minimum height
+  min-height: 100vh;
+  padding: 2rem;
+  @media (min-width: 768px) {
+    padding: 4rem;
+    max-width: 400px;
+  }
 `;
-
 
 const Input = styled.input`
   width: 80%;
-  padding: 10px;
-  margin: 5px;
+  padding: 1rem;
+  margin: 1rem;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 0.5rem;
+  @media (min-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const SubmitButton = styled.button`
   width: 50%;
-  padding: 10px;
+  padding: 1rem;
   background-color: #4CAF50; // Adjust button color as needed
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 0.5rem;
   cursor: pointer;
+  @media (min-width: 768px) {
+    width: 100%;
+  }
 
   &:hover {
     background-color: #45a049;
@@ -60,12 +74,12 @@ const RunningAppForm: React.FC = () => {
 
   return (
     <StyledContainer>
-    <Form onSubmit={handleSubmit}>
-      <Input type="text" placeholder="Running Time" />
-      <Input type="text" placeholder="Distance" />
-      <Input type="text" placeholder="Kilometer Pace" />
-      <SubmitButton type="submit">Find Partner</SubmitButton>
-    </Form>
+      <Form onSubmit={handleSubmit}>
+        <Input type="text" placeholder="Running Time" />
+        <Input type="text" placeholder="Distance" />
+        <Input type="text" placeholder="Kilometer Pace" />
+        <SubmitButton type="submit">Find Partner</SubmitButton>
+      </Form>
     </StyledContainer>
   );
 };

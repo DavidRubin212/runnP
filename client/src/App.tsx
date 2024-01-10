@@ -5,6 +5,7 @@ import Register from '../src/features/users/pages/Register';
 import  Profile  from './features/users/pages/Profile';
 import { NavBar } from './features/users/pages/Navbar';
 import SignIn from './features/users/pages/Signin';
+import InfoProfile from './features/users/pages/InfoProfile';
 const App: React.FC = () => {
     return (
         <Router>
@@ -14,6 +15,7 @@ const App: React.FC = () => {
                 <Route path='signin' element={<SignIn/>}/>
                 <Route path="/matcher" element={<Profile />} />
                 <Route path="/register" element={<Register />} /> 
+                <Route path="/InfoProfile" element={<InfoProfile />} /> 
                 {/* Add more routes as needed */}
             </Routes>
         </Router>
